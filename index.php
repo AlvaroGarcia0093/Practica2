@@ -21,9 +21,13 @@
     } else if (isset($_POST['bDesa']) && !empty($_POST['bDesa'])) {
         $bDesa = '%' . strtolower($_POST['bDesa']) . '%';
         $sql .= " WHERE LOWER(desarrollador) LIKE '$bDesa'";
-    }   else if (isset($_POST["buscar"]) && !empty($_POST['buscar'] )) {
+    } else if (isset($_POST["buscar"]) && !empty($_POST['buscar'])) {
         $buscar = '%' . strtolower($_POST['buscar']) . '%';
         $sql .= " WHERE LOWER(nombre_consola) LIKE '$buscar'";
+    } else if (isset($_POST['fecha1']) && isset($_POST['fecha2'])) {
+        $fecha1 = $_POST['fecha1'];
+        $fecha2 = $_POST['fecha2'];
+        $sql .= " WHERE anyo_lanzamiento BETWEEN '$fecha1' AND '$fecha2'";
     }
 
 
@@ -40,6 +44,9 @@
                 <option value="Sony">Sony</option>
                 <option value="Microsoft">Microsoft</option>
             </select>
+            <br>
+            <input type="number" name="fecha1" id="fecha1" class="form-control">
+            <input type="number" name="fecha2" id="fecha2" class="form-control">
             <br>
         </div>
         <input type="submit" value="Ver" class="btn btn-primary">
