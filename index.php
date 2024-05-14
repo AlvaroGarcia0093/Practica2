@@ -14,14 +14,30 @@
     <?php
     $sql = "SELECT * FROM consolas";
 
-    if (isset($_POST['buscar']) && isset($_POST['bDesa'])) {
+    if (isset($_POST['buscar']) && isset($_POST['bDesa']) && isset($_POST['fecha1']) && isset($_POST['fecha2'])) {
+        $bDesa = '%' . strtolower($_POST['bDesa']) . '%';
+        $buscar = '%' . strtolower($_POST['buscar']) . '%';
+        $fecha1 = $_POST['fecha1'];
+        $fecha2 = $_POST['fecha2'];
+        $sql .= " WHERE LOWER(nombre_consola) LIKE '$buscar' AND LOWER(desarrollador) LIKE '$bDesa' AND anyo_lanzamiento between '$fecha1' AND '$fecha2'";
+    } else if (isset($_POST["buscar"]) && isset($_POST["bDesa"])) {
         $bDesa = '%' . strtolower($_POST['bDesa']) . '%';
         $buscar = '%' . strtolower($_POST['buscar']) . '%';
         $sql .= " WHERE LOWER(nombre_consola) LIKE '$buscar' AND LOWER(desarrollador) LIKE '$bDesa'";
+    } else if (isset($_POST["fecha1"]) && isset($_POST["bDesa"]) && isset($_POST['fecha2'])) {
+        $bDesa = '%' . strtolower($_POST['bDesa']) . '%';
+        $fecha1 = $_POST['fecha1'];
+        $fecha2 = $_POST['fecha2'];
+        $sql .= " WHERE LOWER(desarrollador) LIKE '$bDesa' AND anyo_lanzamiento BETWEEN '$fecha1' AND '$fecha2'";
+    } else if (isset($_POST["fecha1"]) && isset($_POST["buscar"]) && isset($_POST['fecha2'])) {
+        $buscar = '%' . strtolower($_POST['buscar']) . '%';
+        $fecha1 = $_POST['fecha1'];
+        $fecha2 = $_POST['fecha2'];
+        $sql .= " WHERE LOWER(nombre_consola) LIKE '$buscar' AND anyo_lanzamiento BETWEEN '$fecha1' AND '$fecha2'";
     } else if (isset($_POST['bDesa']) && !empty($_POST['bDesa'])) {
         $bDesa = '%' . strtolower($_POST['bDesa']) . '%';
         $sql .= " WHERE LOWER(desarrollador) LIKE '$bDesa'";
-    } else if (isset($_POST["buscar"]) && !empty($_POST['buscar'])) {
+    } else if (isset($_POST["bu2scar"]) && !empty($_POST['buscar'])) {
         $buscar = '%' . strtolower($_POST['buscar']) . '%';
         $sql .= " WHERE LOWER(nombre_consola) LIKE '$buscar'";
     } else if (isset($_POST['fecha1']) && isset($_POST['fecha2'])) {
