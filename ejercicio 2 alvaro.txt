@@ -1,0 +1,32 @@
+Ejercicios
+● Ejercicio 0: Crea en una base de datos “db_consolas” una tabla llamada
+“consolas” con las columnas “id_consola” (númerico entero y autogenerado),
+“nombre_consola”, “anyo_lanzamiento” y “desarrollador”. Usa el tipo de datos
+más adecuado.
+● Ejercicio 1: Crea una página “index.php” donde se muestren en una tabla el
+nombre, el año de lanzamiento y el desarrollador de todas las consolas de la
+base de datos.
+● Ejercicio 2: Añade a “index.php” un botón que redireccione a una página
+“create_console.php” donde se muestre un formulario que permita insertar
+consolas en la base de datos. Para elegir el desarrollar se contará con un
+desplegable de tipo “select” con los valores posibles “Sony”, “Nintendo”,
+“Microsoft” y “Sega”. Habrá un botón para crear la consola con los datos
+introducidos y otro para retroceder a “index.php”.
+● Ejercicio 3: Añade, junto a la fila de cada consola de “index.php”, un botón
+“Ver” que, al pulsarlo, redirija a una página llamada “view_console.php”
+mediante el método GET. En dicha página se mostrará toda la información de
+la consola seleccionada.
+● Ejercicio 4: Añade, en “view_console.php”, un botón “Volver” para retroceder
+a “index.php”, y otro “Editar” que redirija a una página “edit_console.php”
+mediante el método GET. En dicha página se mostrará un formulario editable
+con el nombre, el año y el desarrollador de la consola seleccionada, un botón
+“Editar” para confirmar los cambios que redirigirá a “index.php” y otro botón
+para retroceder a “index.php”. En el formulario, el desarrollador se elegirá con
+un campo de tipo select, y aparecerá por defecto seleccionado el
+desarrollador que tiene la consola en la base de datos.
+● Ejercicio 5: Añade, en “index.php”, un botón “Borrar” junto a cada consola que
+elimine la consola seleccionada.
+● Ejercicio 6: Añade la validación que consideres oportuna en todos los
+formularios.
+
+
