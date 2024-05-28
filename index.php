@@ -37,7 +37,7 @@
     } else if (isset($_POST['bDesa']) && !empty($_POST['bDesa'])) {
         $bDesa = '%' . strtolower($_POST['bDesa']) . '%';
         $sql .= " WHERE LOWER(desarrollador) LIKE '$bDesa'";
-    } else if (isset($_POST["bu2scar"]) && !empty($_POST['buscar'])) {
+    } else if (isset($_POST["buscar"]) && !empty($_POST['buscar'])) {
         $buscar = '%' . strtolower($_POST['buscar']) . '%';
         $sql .= " WHERE LOWER(nombre_consola) LIKE '$buscar'";
     } else if (isset($_POST['fecha1']) && isset($_POST['fecha2'])) {

@@ -1,6 +1,6 @@
 <?php
-    $_servidor = '127.0.0.1';
-    $_usuario = 'jauke';
+    $_servidor = 'localhost';
+    $_usuario = 'root';
     $_contrasena = 'medac';
     $_base_de_datos = 'db_consolas';
 
