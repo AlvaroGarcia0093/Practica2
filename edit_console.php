@@ -66,8 +66,9 @@
         }
 
         if (isset($nombre) and (isset($anyo)) and (isset($desarrollador))) {
-            $sql = "UPDATE consolas SET nombre_consola='$nombre', anyo_lanzamiento='$anyo', desarrollador='$desarrollador' where id_consola = '$id_consola'";
-            $conexion->query($sql);
+            $stmt = $conexion->prepare("UPDATE consolas SET nombre_consola=?, anyo_lanzamiento=?, desarrollador=? where id_consola = '$id_consola'");
+            $stmt->bind_param("sis", $nombre, $anyo, $desarrollador);
+            $stmt->execute();
             header("Location: index.php");
         }
     }

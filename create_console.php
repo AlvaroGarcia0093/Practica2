@@ -45,8 +45,9 @@
         }
 
         if (isset($nombre) and (isset($anyo)) and (isset($desarrollador))) {
-            $sql = "INSERT INTO consolas (nombre_consola, anyo_lanzamiento, desarrollador) values ('$nombre', '$anyo', '$desarrollador')";
-            $conexion->query($sql);
+            $stmt = $conexion->prepare("INSERT INTO consolas (nombre_consola, anyo_lanzamiento, desarrollador) values (?, ?, ?)");
+            $stmt->bind_param("sis", $nombre, $anyo, $desarrollador);
+            $stmt->execute();
             header("Location: index.php");
         }
     }

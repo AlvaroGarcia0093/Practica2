@@ -12,53 +12,77 @@
 
 <body>
     <?php
-    $sql = "SELECT * FROM consolas";
-
+    $sql = "";
     if (isset($_POST['buscar']) && isset($_POST['bDesa']) && isset($_POST['fecha1']) && isset($_POST['fecha2']) && !empty($_POST['bDesa']) && !empty($_POST['buscar']) && !empty($_POST['fecha1']) && !empty($_POST['fecha2'])) {
         $bDesa = '%' . strtolower($_POST['bDesa']) . '%';
         $buscar = '%' . strtolower($_POST['buscar']) . '%';
         $fecha1 = $_POST['fecha1'];
         $fecha2 = $_POST['fecha2'];
-        $sql .= " WHERE LOWER(nombre_consola) LIKE '$buscar' AND LOWER(desarrollador) LIKE '$bDesa' AND anyo_lanzamiento between '$fecha1' AND '$fecha2'";
+        $sql = $conexion->prepare("SELECT * FROM consolas WHERE LOWER(nombre_consola) LIKE ? AND LOWER(desarrollador) LIKE ? AND anyo_lanzamiento between ? AND ?");
+        $sql->bind_param("ssii", $buscar, $bDesa, $fecha1, $fecha2);
+        $sql->execute();
+        $resultado = $sql->get_result();
     } else if (isset($_POST["buscar"]) && isset($_POST["bDesa"]) && !empty($_POST['buscar']) && !empty($_POST['bDesa'])) {
         $bDesa = '%' . strtolower($_POST['bDesa']) . '%';
         $buscar = '%' . strtolower($_POST['buscar']) . '%';
-        $sql .= " WHERE LOWER(nombre_consola) LIKE '$buscar' AND LOWER(desarrollador) LIKE '$bDesa'";
+        $sql = $conexion->prepare("SELECT * FROM consolas WHERE LOWER(nombre_consola) LIKE ? AND LOWER(desarrollador) LIKE ?");
+        $sql->bind_param("ss", $buscar, $bDesa);
+        $sql->execute();
+        $resultado = $sql->get_result();
     } else if (isset($_POST["fecha1"]) && isset($_POST["bDesa"]) && isset($_POST['fecha2']) && !empty($_POST['fecha1']) && !empty($_POST['bDesa']) && !empty($_POST['fecha2'])) {
         $bDesa = '%' . strtolower($_POST['bDesa']) . '%';
         $fecha1 = $_POST['fecha1'];
         $fecha2 = $_POST['fecha2'];
-        $sql .= " WHERE LOWER(desarrollador) LIKE '$bDesa' AND anyo_lanzamiento BETWEEN '$fecha1' AND '$fecha2'";
+        $sql = $conexion->prepare("SELECT * FROM consolas WHERE LOWER(desarrollador) LIKE ? AND anyo_lanzamiento between ? AND ?");
+        $sql->bind_param("sii", $bDesa, $fecha1, $fecha2);
+        $sql->execute();
+        $resultado = $sql->get_result();
     } else if (isset($_POST["fecha1"]) && isset($_POST["buscar"]) && isset($_POST['fecha2']) && !empty($_POST['buscar']) && !empty($_POST['fecha1']) && !empty($_POST['fecha2'])) {
         $buscar = '%' . strtolower($_POST['buscar']) . '%';
         $fecha1 = $_POST['fecha1'];
         $fecha2 = $_POST['fecha2'];
-        $sql .= " WHERE LOWER(nombre_consola) LIKE '$buscar' AND anyo_lanzamiento BETWEEN '$fecha1' AND '$fecha2'";
+        $sql = $conexion->prepare("SELECT * FROM consolas WHERE LOWER(nombre_consola) LIKE ? AND anyo_lanzamiento between ? AND ?");
+        $sql->bind_param("sii", $buscar, $fecha1, $fecha2);
+        $sql->execute();
+        $resultado = $sql->get_result();
     } else if (isset($_POST['bDesa']) && !empty($_POST['bDesa'])) {
         $bDesa = '%' . strtolower($_POST['bDesa']) . '%';
-        $sql .= " WHERE LOWER(desarrollador) LIKE '$bDesa'";
+        $sql = $conexion->prepare("SELECT * FROM consolas WHERE LOWER(desarrollador) LIKE ?");
+        $sql->bind_param("s",$bDesa);
+        $sql->execute();
+        $resultado = $sql->get_result();
     } else if (isset($_POST["buscar"]) && !empty($_POST['buscar'])) {
         $buscar = '%' . strtolower($_POST['buscar']) . '%';
-        $sql .= " WHERE LOWER(nombre_consola) LIKE '$buscar'";
+        $sql = $conexion->prepare("SELECT * FROM consolas WHERE LOWER(nombre_consola) LIKE ?");
+        $sql->bind_param("s", $buscar);
+        $sql->execute();
+        $resultado = $sql->get_result();
     } else if (isset($_POST['fecha1']) && isset($_POST['fecha2']) && !empty($_POST['fecha1']) && !empty($_POST['fecha2'])) {
         $fecha1 = (int)$_POST['fecha1'];
         $fecha2 = (int)$_POST['fecha2'];
         
         if ($fecha1 < $fecha2) {
-            $sql .= " WHERE anyo_lanzamiento BETWEEN '$fecha1' AND '$fecha2'";
+            $sql = $conexion->prepare("SELECT * FROM consolas WHERE anyo_lanzamiento between ? AND ?");
+            $sql->bind_param("ii", $fecha1, $fecha2);
+            $sql->execute();
+            $resultado = $sql->get_result();
         } else {
             //$fecha2 = $error_fecha;
             $error_fecha = "Hola";
         }
+    } else {
+        $sql = $conexion->prepare("SELECT * FROM consolas");
+        $sql->execute();
+        $resultado = $sql->get_result();
     }
 
     if (isset($_POST['orden']) && ($_POST['orden'] == 'ASC' || $_POST['orden'] == 'DESC')) {
-        $sql .= " ORDER BY LOWER(nombre_consola) " . ($_POST['orden']);
+        $sql = $conexion->prepare("SELECT * FROM consolas ORDER BY LOWER(nombre_consola) " . ($_POST['orden']));
+        $sql->execute();
+        $resultado = $sql->get_result();
     }
     
-    echo $sql;
 
-    $resultado = $conexion->query($sql);
     ?>
     <form action="" method="POST">
         <div class="buscar">
@@ -78,9 +102,9 @@
             <br>
             <label for="orden">Ordenar por nombre:</label><br>
             <input type="radio" id="asc" name="orden" value="ASC" class="form-check-input">
-            <label for="asc">Ascendente</label><br>
+            <label for="asc">A-Z</label><br>
             <input type="radio" id="desc" name="orden" value="DESC" class="form-check-input">
-            <label for="desc">Descendente</label>
+            <label for="desc">Z-A</label>
             <br>
             <br>
         </div>
